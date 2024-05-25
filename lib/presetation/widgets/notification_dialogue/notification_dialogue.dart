@@ -1,18 +1,24 @@
-import 'package:drivres_app/buisnis_logic/maps_provider/maps_provider.dart';
 import 'package:drivres_app/buisnis_logic/notifications_system/push_notifications_system.dart';
 import 'package:drivres_app/data/ride_request_model/ride_request_model.dart';
 import 'package:drivres_app/presetation/app_manager/color_manager/colormanager.dart';
 import 'package:drivres_app/presetation/app_manager/text_manager/textmanager.dart';
 import 'package:drivres_app/presetation/buttou_manager/buttomn_%C3%B9anager.dart';
-import 'package:drivres_app/presetation/screens/ride_map_screen/ride_map_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
+import '../../ChatScreen/chat-screen.dart';
+
 class NotificationDialogue extends StatefulWidget {
   final RideRequest rideRequest;
+  final String message;
+  final String roomId;
 
-  const NotificationDialogue({required this.rideRequest});
+  const NotificationDialogue(
+      {super.key,
+      required this.rideRequest,
+      required this.message,
+      required this.roomId});
 
   @override
   State<NotificationDialogue> createState() => _NotificationDialogueState();
@@ -36,7 +42,7 @@ class _NotificationDialogueState extends State<NotificationDialogue> {
             Container(
               margin: EdgeInsets.only(top: height * 0.03),
               child: MyDefaultTextStyle(
-                  text: "New Ride Request",
+                  text: "Start New Cnversation",
                   height: height * 0.03,
                   color: black,
                   bold: true),
@@ -46,22 +52,15 @@ class _NotificationDialogueState extends State<NotificationDialogue> {
             ),
             Row(
               children: [
-                Container(
-                  height: height * 0.045,
-                  margin: EdgeInsets.only(
-                      left: width * 0.01,
-                      right: width * 0.02,
-                      bottom: height * 0.01),
-                  child: Image.asset("assets/images/origin.png"),
-                ),
                 Expanded(
                   child: Container(
+                    alignment: Alignment.center,
                     margin: EdgeInsets.only(
-                      left: width * 0.01,
-                      right: width * 0.02,
+                      left: width * 0.06,
+                      right: width * 0.06,
                     ),
                     child: MyDefaultTextStyle(
-                        text: widget.rideRequest.userpositionName.toString(),
+                        text: "you have new message from  ${widget.message}",
                         height: height * 0.015,
                         color: black),
                   ),
@@ -70,30 +69,6 @@ class _NotificationDialogueState extends State<NotificationDialogue> {
             ),
             SizedBox(
               height: height * 0.02,
-            ),
-            Row(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(
-                      left: width * 0.01,
-                      right: width * 0.02,
-                      bottom: height * 0.02),
-                  height: height * 0.04,
-                  child: Image.asset("assets/images/destination.png"),
-                ),
-                Expanded(
-                  child: Container(
-                    margin: EdgeInsets.only(
-                        left: width * 0.01,
-                        right: width * 0.02,
-                        bottom: height * 0.01),
-                    child: MyDefaultTextStyle(
-                        text: widget.rideRequest.destinationName.toString(),
-                        height: height * 0.015,
-                        color: black),
-                  ),
-                ),
-              ],
             ),
             SizedBox(
               height: height * 0.02,
@@ -119,16 +94,11 @@ class _NotificationDialogueState extends State<NotificationDialogue> {
                 ),
                 Defaultbutton(
                     functon: () {
-                      Navigator.pop(context);
-                      Provider.of<NotificationsSystem>(context, listen: false)
-                          .assetsAudioPlayer
-                          .stop();
-                      Provider.of<NotificationsSystem>(context, listen: false)
-                          .acceptRideRequest(context);
-                          Provider.of<MapsProvider>(context, listen: false)
-                          .pauseLiveLovation();
-
-                      
+                      Navigator.pushReplacement(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.leftToRight,
+                              child: const ChatScreen()));
                     },
                     text: "ACCEPT",
                     height: height * 0.06,

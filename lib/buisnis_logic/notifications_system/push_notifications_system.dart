@@ -29,6 +29,8 @@ class NotificationsSystem with ChangeNotifier {
 
   RideRequest rideRequest = RideRequest();
   String? reqID = "";
+  String newmessage = "";
+  String roomid = "";
 
   Future intializeNotifications(BuildContext context) async {
     //1.Background notifications
@@ -40,8 +42,13 @@ class NotificationsSystem with ChangeNotifier {
       print("this is requestID :");
       print(remoteMessage!.data["rideRequestID"]);
       rideRequestID = remoteMessage.data["rideRequestID"];
+      newmessage = remoteMessage.data["newmessage"];
+      roomid = remoteMessage.data["roomID"];
       fetchRideRequestData(context);
       notifyListeners();
+
+      print(roomid);
+      print("hello");
     });
 
     //2.Foreground notifications
@@ -52,8 +59,13 @@ class NotificationsSystem with ChangeNotifier {
       print("this is requestID :");
       print(remoteMessage!.data["rideRequestID"]);
       rideRequestID = remoteMessage.data["rideRequestID"];
+      newmessage = remoteMessage.data["newmessage"];
+      roomid = remoteMessage.data["roomID"];
+
       fetchRideRequestData(context);
       notifyListeners();
+      print(roomid);
+      print("hello");
     });
 
     //3.Terminated notifications
@@ -65,7 +77,11 @@ class NotificationsSystem with ChangeNotifier {
         print("this is requestID :");
         print(remoteMessage.data["rideRequestID"]);
         rideRequestID = remoteMessage.data["rideRequestID"];
+        roomid = remoteMessage.data["roomID"];
+        newmessage = remoteMessage.data["newmessage"];
         fetchRideRequestData(context);
+        print(roomid);
+        print("hello");
         notifyListeners();
       }
     });
@@ -128,8 +144,7 @@ class NotificationsSystem with ChangeNotifier {
           context: context,
           builder: (context) {
             return NotificationDialogue(
-              rideRequest: rideRequest,
-            );
+                rideRequest: rideRequest, message: newmessage,roomId:roomid);
           });
       print(rideRequest.originLatLng);
     } else {
@@ -162,13 +177,13 @@ class NotificationsSystem with ChangeNotifier {
               .child(FirebaseAuth.instance.currentUser!.uid)
               .child("newRideStatus")
               .set("accept");
-              Navigator.push(
-                          context,
-                          PageTransition(
-                              curve: Curves.easeIn,
-                              duration: const Duration(milliseconds: 550),
-                              type: PageTransitionType.leftToRight,
-                              child: const RideMapScreen()));
+          Navigator.push(
+              context,
+              PageTransition(
+                  curve: Curves.easeIn,
+                  duration: const Duration(milliseconds: 550),
+                  type: PageTransitionType.leftToRight,
+                  child: const RideMapScreen()));
 
           print(snap.snapshot.value.toString());
         } else {
@@ -204,8 +219,6 @@ class NotificationsSystem with ChangeNotifier {
     driverReference.child('CarNum').set(driver.carNumber);
     driverReference.child('driverID').set(driver.uid);
     driverReference.child('driverLocation').set(driverLocation);
-
-  
 
     saveRideHistory();
   }
