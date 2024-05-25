@@ -1,3 +1,3 @@
-// use your owen key 
+// use your own key 
 
 String apiKey = "";
