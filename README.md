@@ -52,9 +52,9 @@ git clone https://github.com/aymenab45/Uber-Clone-Drivers.git
 cd Uber-Clone-Drivers
  ```
 
-2. [Configuration Step 1: Set up the environment variables and configuration files as required by the project. For instance, create a .env file for environment-specific variables.]
+2.  Set up the environment variables and configuration files as required by the project. For instance, create a .env file for environment-specific variables.
 
-3. [Configuration Step 2: If there are additional configuration steps, such as setting up Firebase or other backend services, ensure to follow those instructions provided in the project documentation.]
+3. If there are additional configuration steps, such as setting up Firebase or other backend services, ensure to follow those instructions provided in the project documentation.
 
 4. Install the required dependencies using Flutter's package manager:
 
